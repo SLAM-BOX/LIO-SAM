@@ -199,6 +199,11 @@ Part of the code is adapted from [LeGO-LOAM](https://github.com/RobustFieldAuton
 
 ## TODO
 
+  - [ ] Add Ring Number for Lgsvl data
+  - [ ] Merge with LGSVL simulator
+  - [ ] Add local map generation thread
+  - [ ] Add feature extraction thread
+  - [ ] Update Loop closure Detection
   - [ ] Add loop closure visualization and fix potential bug
 
 ## Acknowledgement
