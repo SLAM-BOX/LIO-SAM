@@ -197,6 +197,7 @@ private:
     std::queue<ImuData> imu_queue_;  // timestamp, data
     std::mutex imu_m_;
     bool has_received_imu_ = false;
+    bool has_new_imu_ = false;
 
     // gps queue
     const std::size_t kGpsQueueSize_;
@@ -246,13 +247,13 @@ public:
         if(simulate) {
 
             subImu_ = nh_.subscribe<sensor_msgs::Imu>(
-                    imu_accer_angle_topic_sim, 1000, &MultiSensorFusion::imuCallback, this);
+                    imu_accer_angle_topic, 1000, &MultiSensorFusion::imuCallback, this);
 
             subGps_ = nh_.subscribe<sensor_msgs::NavSatFix>(
-                    gps_position_topic_sim, 1000, &MultiSensorFusion::gpsCallback, this);
+                    gps_position_topic, 1000, &MultiSensorFusion::gpsCallback, this);
 
-            subLaser_ = nh_.subscribe<nav_msgs::Odometry>(
-                    lidar_odometry_topic_sim, 1000, &MultiSensorFusion::laserOdoCallback, this);
+            // subLaser_ = nh_.subscribe<nav_msgs::Odometry>(
+            //         lidar_odometry_topic, 1000, &MultiSensorFusion::laserOdoCallback, this);
 
             pubFusionPose_ = nh_.advertise<nav_msgs::Odometry>(pose_fusion_topic_sim, 200);
 
@@ -335,8 +336,12 @@ public:
         }
     }
 
-    void multiSensorFusion() {
-        current_t_ = ros::Time::now();
+    void sensorfusion() {
+
+        if (has_new_imu_) has_new_imu_=false;
+        else return;
+
+        // current_t_ = ros::Time::now();
 
         std::vector<ImuData> imus = getImuDataBetweenLast2Current(last_imu_t_, current_t_);
         if (!imus.empty()) last_imu_t_ = current_t_;
@@ -409,6 +414,10 @@ private:
         if (imu_queue_.size() == kImuQueueSize_) {
             imu_queue_.pop();
         }
+
+        //* set current timestamp
+        has_new_imu_ = true;
+        current_t_ = msg->header.stamp;
 
         ImuData imu_msg;
         imu_msg.setbuf(msg);
@@ -628,7 +637,7 @@ int main(int argc, char** argv) {
 
             } else {
 
-                TFusion.multiSensorFusion();
+                TFusion.sensorfusion();
 
             }
         }

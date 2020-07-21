@@ -43,11 +43,11 @@ target_include_directories(multiSensorFusion PUBLIC
 		${GeographicLib_INCLUDE_DIRS})
 target_link_libraries(multiSensorFusion ${catkin_LIBRARIES} ${GeographicLib_LIBRARIES})
 
-add_executable(convertSimlation src/convert_simlation.cpp)
-target_link_libraries(convertSimlation ${catkin_LIBRARIES})
+# add_executable(convertSimlation src/convert_simlation.cpp)
+# target_link_libraries(convertSimlation ${catkin_LIBRARIES})
 
-add_executable(tfRviz src/tf_rviz.cpp)
-target_link_libraries(tfRviz ${catkin_LIBRARIES})
+# add_executable(tfRviz src/tf_rviz.cpp)
+# target_link_libraries(tfRviz ${catkin_LIBRARIES})
 
-add_executable(evo src/evo.cpp)
-target_link_libraries(evo ${catkin_LIBRARIES})
+# add_executable(evo src/evo.cpp)
+# target_link_libraries(evo ${catkin_LIBRARIES})

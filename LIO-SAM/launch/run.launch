@@ -1,7 +1,10 @@
 <launch>
 
     <arg name="project" default="lio_sam"/>
-    
+
+    <!--- Sensor Fusion -->
+    <!-- <node pkg="rtk_imu" type="multiSensorFusion" name="fusion" output="screen"/> -->
+
     <!-- Parameters -->
     <rosparam file="$(find lio_sam)/config/params.yaml" command="load" />
 

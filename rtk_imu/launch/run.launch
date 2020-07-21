@@ -1,22 +1,17 @@
 <launch>
 
     <!--- Message Converter -->
-    <node pkg="rtk_imu" type="convertSimlation"    name="convert"    output="screen">
+    <!-- <node pkg="rtk_imu" type="convertSimlation"    name="convert"    output="screen">
         <remap from="/gps_pub" to="/gps_pub_2" />
-    </node> 
+    </node>  -->
 
     <!--- Sensor Fusion -->
     <node pkg="rtk_imu" type="multiSensorFusion" name="fusion" output="screen"/>
 
     <!--- Static TF -->
-      <node pkg="tf" type="static_transform_publisher" name="base_link_velodyne" args="0 0 0 0 0 0 base_link velodyne 100" />
+    <!-- <node pkg="tf" type="static_transform_publisher" name="base_link_velodyne" args="0 0 0 0 0 0 base_link velodyne 100" /> -->
 
     <!--- Rviz -->
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find lio_sam)/launch/include/config/fusion.rviz" />
-
-    <!--- Rqt -->
-    <node name = "my_rqt_dashboard" pkg = "rqt_gui" type = "rqt_gui" respawn = "false" output = "screen" args = "--perspective-file $(find lio_sam)/config/slam.perspective"/>
-
-
-
+    <!-- <node type="rviz" name="rviz" pkg="rviz" args="-d $(find lio_sam)/launch/include/config/fusion.rviz" /> -->
+    
 </launch>
