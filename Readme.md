@@ -6,9 +6,7 @@ check LIO-SAM
 
 ## Prepare data
 
-```bash
-wget -c 
-
-```
+链接：https://pan.baidu.com/s/1HoUSZt0pAfeF4vPTWPngnQ 
+提取码：yn3t
 
 
