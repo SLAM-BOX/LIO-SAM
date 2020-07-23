@@ -2,12 +2,23 @@
 
 ## For real data experiments
 
-### Install
-check LIO-SAM
+***Install this repo***
+```bash
+mkdir -p catkin_ws/src
+cd catkin_ws/src
+git clone https://github.com/SLAM-BOX/LIO-SAM.git --branch dev
+cd ../../
+catkin build
+```
 
 ### Prepare data
 链接：https://pan.baidu.com/s/1HoUSZt0pAfeF4vPTWPngnQ 
 提取码：yn3t
+
+
+##
+
+
 
 ## For LgSVL Simulation 
 
@@ -15,8 +26,9 @@ check LIO-SAM
 
 ***Open Web-bridge***
 ```bash
-roslaunch lgs
+roslaunch lgsvl sensor.launch
 ```
+This launch file can open the web bridge between windows/linux, then you can subscribe topics from lgsvl on windows side.
 
 
 ### Install & Configure LgSVL on Windows
@@ -27,8 +39,12 @@ roslaunch lgs
 
 ***Configure LgSVL***
 * [Configure Car parameters](https://www.lgsvlsimulator.com/docs/vehicles-tab/)
+You need to configure the sensor outputs from for a given vehicle.
+
 * [Configure simulator](https://www.lgsvlsimulator.com/docs/simulations-tab/)
 
+* [Configure scene](https://www.lgsvlsimulator.com/docs/build-instructions/)
+You can modify the scene and add custom video outputs for lgsvl.
 
 ## EVO Analysis
 
