@@ -1,6 +1,6 @@
 # LIO-SAM 
 
-## For real data experiments
+## For Lio-sam
 
 ***Install this repo***
 ```bash
@@ -11,13 +11,25 @@ cd ../../
 catkin build
 ```
 
+***Run lio-sam***
+For real data
+```bash
+roslaunch lio-sam run.launch
+```
+
+For lgsvl data, we need to add ring channel into the /velodyne_points topic.
+```bash
+roscd lgsvl && python convert.py
+```
+
+Run lio-sam on lgsvl
+```bash
+roslaunch lio-sam run_lgsvl.launch
+```
+
 ### Prepare data
 链接：https://pan.baidu.com/s/1HoUSZt0pAfeF4vPTWPngnQ 
 提取码：yn3t
-
-
-##
-
 
 
 ## For LgSVL Simulation 
