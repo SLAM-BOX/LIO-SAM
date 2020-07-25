@@ -6,5 +6,8 @@
   <!-- Re-publishing simulator/camera_node/image/compressed topic to /image_raw as expected by Autoware -->
   <node name="republish" type="republish" pkg="image_transport" output="screen" args="compressed in:=/simulator/camera_node/image raw out:=/image_raw" />
 
+  <!-- Message Converter -->
+  <node name="lgsvl" pkg="lgsvl" type="convert.py" output="screen"/>
+
 </launch>
 
