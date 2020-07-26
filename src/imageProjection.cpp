@@ -174,16 +174,17 @@ public:
 
     void cloudHandler(const sensor_msgs::PointCloud2ConstPtr& laserCloudMsg)
     {
+        // save pointcloud and chech the pointcloud format
         if (!cachePointCloud(laserCloudMsg))
             return;
-
+        // deskew the pointcloud with timestamp info
         if (!deskewInfo())
             return;
-
+        // analyse pointcloud and project pointclound wit space gemotry info
         projectPointCloud();
-
+        // save valid pointcloud into self-define cloud_info msg
         cloudExtraction();
-
+        // push cloud_info type msg
         publishClouds();
 
         resetParameters();
@@ -427,7 +428,7 @@ public:
                 break;
             ++imuPointerFront;
         }
-
+        // imu Interpolation for deskew pointcloud
         if (pointTime > imuTime[imuPointerFront] || imuPointerFront == 0)
         {
             *rotXCur = imuRotX[imuPointerFront];
