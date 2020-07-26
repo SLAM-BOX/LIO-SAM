@@ -67,12 +67,13 @@ public:
     {
         cloudInfo = *msgIn; // new cloud info
         cloudHeader = msgIn->header; // new cloud header
+        // save compressed pointcloud into extractedCloud
         pcl::fromROSMsg(msgIn->cloud_deskewed, *extractedCloud); // new cloud for extraction
-
+        // calc smoothness for points in pointcloud, please ref loam paper and code from Ji Zhang
         calculateSmoothness();
-
+        // mark unstable points, please ref loam paper and code from Ji Zhang
         markOccludedPoints();
-
+        // extract edge and surf features of lidar scan
         extractFeatures();
 
         publishFeatureCloud();

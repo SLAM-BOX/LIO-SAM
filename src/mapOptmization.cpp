@@ -75,10 +75,10 @@ public:
 
     std::deque<nav_msgs::Odometry> gpsQueue;
     lio_sam::cloud_info cloudInfo;
-
+    // vector for saving key frame feature pointcloud
     vector<pcl::PointCloud<PointType>::Ptr> cornerCloudKeyFrames;
     vector<pcl::PointCloud<PointType>::Ptr> surfCloudKeyFrames;
-    
+    // vector for saving key pose
     pcl::PointCloud<PointType>::Ptr cloudKeyPoses3D;
     pcl::PointCloud<PointTypePose>::Ptr cloudKeyPoses6D;
 
@@ -101,7 +101,7 @@ public:
     pcl::PointCloud<PointType>::Ptr laserCloudSurfFromMap;
     pcl::PointCloud<PointType>::Ptr laserCloudCornerFromMapDS;
     pcl::PointCloud<PointType>::Ptr laserCloudSurfFromMapDS;
-
+    // KdTreeFLANN is a generic type of 3D spatial locator using kD-tree structures.
     pcl::KdTreeFLANN<PointType>::Ptr kdtreeCornerFromMap;
     pcl::KdTreeFLANN<PointType>::Ptr kdtreeSurfFromMap;
 
@@ -135,9 +135,9 @@ public:
 
     bool aLoopIsClosed = false;
     int imuPreintegrationResetId = 0;
-
+    // save global path
     nav_msgs::Path globalPath;
-
+    // save scan to map matching initial pose info
     Eigen::Affine3f transPointAssociateToMap;
 
     mapOptimization()
@@ -230,21 +230,21 @@ public:
         if (timeLaserCloudInfoLast - timeLastProcessing >= mappingProcessInterval) {
 
             timeLastProcessing = timeLaserCloudInfoLast;
-
+            // get guess pose from imu and imu preintegration
             updateInitialGuess();
-
+            // downsample the edge and surf feature pointcloud
             extractSurroundingKeyFrames();
-
+            // downsample the current scan 
             downsampleCurrentScan();
-
+            // scan to map matching and optimization
             scan2MapOptimization();
-
+            // factor graph optimization with 1.scan2Map results 2.gps, and save key frames 
             saveKeyFramesAndFactor();
-
+            // correct current global pose when get opti result
             correctPoses();
-
+            // publish the odom after Scan2Map and optimization
             publishOdometry();
-
+            // publish key frames feature pointcloud
             publishFrames();
         }
     }
@@ -437,7 +437,7 @@ public:
 
 
 
-
+    //LCD thread callback
     void loopClosureThread()
     {
         if (loopClosureEnableFlag == false)
@@ -447,10 +447,12 @@ public:
         while (ros::ok())
         {
             rate.sleep();
+            //perform LCD detection and optimization with lcd constraint
             performLoopClosure();
         }
     }
 
+    // detect lcd with Euclidean distance
     bool detectLoopClosure(int *latestID, int *closestID)
     {
         int latestFrameIDLoopCloure;
@@ -571,6 +573,7 @@ public:
 
         // Add pose constraint
         std::lock_guard<std::mutex> lock(mtx);
+        //constraint between key[latestFrameIDLoopCloure] node and key[closestHistoryFrameID]  node
         gtSAMgraph.add(BetweenFactor<Pose3>(latestFrameIDLoopCloure, closestHistoryFrameID, poseFrom.between(poseTo), constraintNoise));
         isam->update(gtSAMgraph);
         isam->update();
