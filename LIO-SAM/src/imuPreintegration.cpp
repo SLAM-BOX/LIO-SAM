@@ -77,7 +77,7 @@ public:
     IMUPreintegration()
     {
         subImu      = nh.subscribe<sensor_msgs::Imu>  (imuTopic,                   2000, &IMUPreintegration::imuHandler,      this, ros::TransportHints().tcpNoDelay());
-        subOdometry = nh.subscribe<nav_msgs::Odometry>("lio_sam/mapping/odometry", 5,    &IMUPreintegration::odometryHandler, this, ros::TransportHints().tcpNoDelay());
+        // subOdometry = nh.subscribe<nav_msgs::Odometry>("lio_sam/mapping/odometry", 5,    &IMUPreintegration::odometryHandler, this, ros::TransportHints().tcpNoDelay());
 
         pubImuOdometry = nh.advertise<nav_msgs::Odometry> (odomTopic, 2000);
         pubImuPath     = nh.advertise<nav_msgs::Path>     ("lio_sam/imu/path", 1);
